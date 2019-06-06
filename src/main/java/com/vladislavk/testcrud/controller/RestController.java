@@ -44,19 +44,19 @@ public class RestController {
         return productDaoImpl.getListOvers();
     }
 
-    @PostMapping(value = "/insert")
+    @PostMapping(value = "/admin/insert")
     @ResponseStatus(HttpStatus.CREATED)
     public Product createProduct(@RequestBody Product product) {
         return productDaoImpl.createObject(product);
     }
 
-    @PutMapping(value = "/update/{id}")
+    @PutMapping(value = "/admin/update/{id}")
     public int updateProduct(@PathVariable int id,
                                  @RequestBody Product product) {
         return productDaoImpl.updateObject(id, product, Product.class);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/admin/delete/{id}")
     public void deleteProduct(@PathVariable int id) {
         productDaoImpl.deleteProduct(id, Product.class);
     }
