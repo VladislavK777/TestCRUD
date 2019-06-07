@@ -12,24 +12,60 @@
 </head>
 
 <body onload="init()">
-    <div>
-      <p>${user}</p>
-      <c:url value="/logout" var="logoutUrl"/>
-      <form action="${logoutUrl}" method="post">
-        <button type="submit" class="bot1">Выход</button>
-      </form>
-    </div>
-    <div>
-        <p>Поиск по названию</p>
-        <input name="searchName" type="text" value="" placeholder="Название..."/>
-        <input type="button" value="Поиск" onclick="searchName()"/>
-        <br/>
-        <p>Поиск по бренду</p>
-        <input name="searchBrand" type="text" value="" placeholder="Бренд..."/>
-        <input type="button" value="Поиск" onclick="searchBrand()"/>
-    </div>
+    <table>
+        <tr>
+            <td>
+                <div>
+                  <p>${user}</p>
+                  <c:url value="/logout" var="logoutUrl"/>
+                  <form action="${logoutUrl}" method="post">
+                    <button type="submit">Logout</button>
+                  </form>
+                </div>
+            </td>
+            <c:if test="${role == '[ROLE_ADMIN]'}">
+                <td id="newProd">
+                    <input type="text" id="name" placeholder="Name..." required/>
+                    <input type="text" id="brand" placeholder="Brand..." required/>
+                    <input type="text" id="price" placeholder="Price..." required/>
+                    <input type="text" id="quantity" placeholder="Quantity..." required/>
+                    <input type="button" onclick="newProduct(this.parentNode.id)" value="New product"/>
+                </td>
+            </c:if>
+            <td>
+                <input type="button" onclick="leftovers()" value="Leftovers"/>
+            </td>
+        </tr>
+    </table>
+    <table>
+            <tr>
+                <td>
+                    <div>
+                        <p>Search by Name</p>
+                        <input name="searchName" type="text" value="" placeholder="Name..."/>
+                        <input type="button" value="Search" onclick="searchName()"/>
+                    </div>
+                </td>
+                <td>
+                    </div>
+                        <p>Search by Brand</p>
+                        <input name="searchBrand" type="text" value="" placeholder="Brand..."/>
+                        <input type="button" value="Search" onclick="searchBrand()"/>
+                    </div>
+                </td>
+            </tr>
+    </table>
     </br>
-    <div id="result"></div>
+    <table>
+        <tr>
+            <td>
+                <div id="result"></div>
+            </td>
+            <td>
+                <div id="leftovers"></div>
+            </td>
+        </tr>
+    </table>
     <form action="export" method="get" id="prod">
       <input type="submit" form="prod" value="Save to Excel"/>
     </form>

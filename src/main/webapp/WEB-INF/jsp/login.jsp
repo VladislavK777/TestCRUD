@@ -9,44 +9,40 @@
 </head>
 
 <body>
-      <c:url value="/login" var="loginUrl" />
-        <form action="${loginUrl}" method="post">
-          <table>
-            <tr>
-              <td>
-                <c:choose>
-                  <c:when test="${param.error != null}">
-                    <h2>Неверный логин или пароль</h2>
-                  </c:when>
-                  <c:otherwise>
-                    <h2>Вход в систему</h2>
-                  </c:otherwise>
-                </c:choose>
-              </td>
-            </tr>
-            <tr>
-              <td>
-
-              <input type="text" autocomplete="off" name="username" value="" required />
-              <span>Пользователь</span>
-
-              </td>
-            </tr>
-            <tr>
-              <td>
-
-              <input type="password" autocomplete="off" name="password" value="" required />
-              <span>Пароль</span>
-
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <button type="submit">Войти</button>
-              </td>
-            </tr>
-          </table>
-        </form>
+  <c:url value="/login" var="loginUrl" />
+  <form action="${loginUrl}" method="post">
+    <table>
+      <tr>
+        <td>
+          <c:choose>
+            <c:when test="${param.error != null}">
+              <h2>Wrong login/password</h2>
+            </c:when>
+            <c:otherwise>
+              <h2>Login to system</h2>
+            </c:otherwise>
+          </c:choose>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="text" autocomplete="off" name="username" value="" required />
+          <span>Username</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="password" autocomplete="off" name="password" value="" required />
+          <span>Password</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button type="submit">Login</button>
+        </td>
+      </tr>
+    </table>
+  </form>
 </body>
 
 </html>

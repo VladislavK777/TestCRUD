@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * @author Vladislav Klochkov
  * @project testcrud
@@ -22,54 +20,31 @@ import java.util.List;
 // будут вызваны соответсвующие методы
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping(value = "api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
-public class RestController {
-    private static Logger logger = LoggerFactory.getLogger(RestController.class);
+public class AdminRestController {
+    private static Logger logger = LoggerFactory.getLogger(AdminRestController.class);
 
     @Autowired
     private ProductDaoImpl productDaoImpl;
     @Autowired
     private ResultOfSearch resultOfSearch;
 
-    @GetMapping(value = "/all")
-    public List getAllProduct() {
-        List<Product> listResult = productDaoImpl.getAllProduct();
-        resultOfSearch.setProductList(listResult);
-        return listResult;
-    }
-
-    @GetMapping(value = "/search/name")
-    public List getProductByName(@RequestParam("name") String name) {
-        List<Product> listResult = productDaoImpl.getByName(name, Product.class);
-        resultOfSearch.setProductList(listResult);
-        return listResult;
-    }
-
-    @GetMapping(value = "/search/brand")
-    public List getProductByBrand(@RequestParam("brand") String brand) {
-        List<Product> listResult = productDaoImpl.getByBrand(brand, Product.class);
-        resultOfSearch.setProductList(listResult);
-        return listResult;
-    }
-
-    @GetMapping(value = "/leftovers")
-    public List getLeftOvers() {
-        return productDaoImpl.getListOvers();
-    }
-
     @PostMapping(value = "/admin/insert")
     @ResponseStatus(HttpStatus.CREATED)
     public Product createProduct(@RequestBody Product product) {
+        logger.debug("API: createProduct - request: {}", product.toString());
         return productDaoImpl.createObject(product);
     }
 
     @PutMapping(value = "/admin/update/{id}")
     public int updateProduct(@PathVariable int id,
                                  @RequestBody Product product) {
+        logger.debug("API: updateProduct - request: {}, {}", id, product.toString());
         return productDaoImpl.updateObject(id, product, Product.class);
     }
 
     @DeleteMapping(value = "/admin/delete/{id}")
     public void deleteProduct(@PathVariable int id) {
+        logger.debug("API: deleteProduct - request: {}", id);
         productDaoImpl.deleteProduct(id, Product.class);
     }
 }
