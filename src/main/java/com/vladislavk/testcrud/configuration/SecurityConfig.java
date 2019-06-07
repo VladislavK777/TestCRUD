@@ -1,10 +1,13 @@
 package com.vladislavk.testcrud.configuration;
 
+import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * @author Vladislav Klochkov
@@ -12,17 +15,23 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @date 2019-06-06
  */
 
+
 @Configuration
-@EnableWebMvc
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    HikariDataSource hikariDataSource;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .inMemoryAuthentication()
-                .withUser("user").password("user").roles("USER")
-                .and()
-                .withUser("admin").password("secret99**").roles("ADMIN");
+                .jdbcAuthentication().dataSource(hikariDataSource)
+                .usersByUsernameQuery("select username, password, enabled"
+                        + " from users where username=?")
+                .authoritiesByUsernameQuery("select username, role "
+                        + "from roles where username=?")
+                .passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
@@ -42,3 +51,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID");
     }
 }
+
