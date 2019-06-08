@@ -20,7 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    HikariDataSource hikariDataSource;
+    private HikariDataSource hikariDataSource;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
