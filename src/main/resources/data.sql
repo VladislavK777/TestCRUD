@@ -7,8 +7,8 @@ create table product(
     quantity int not null
 );
 
-insert into product(name,brand,price,quantity) values('T-shift', 'US POLO', 4000.00, 6);
-insert into product(name,brand,price,quantity) values('T-shift', 'Tommy Hilfiger', 3500.00, 4);
+insert into product(name,brand,price,quantity) values('T-shit', 'US POLO', 4000.00, 6);
+insert into product(name,brand,price,quantity) values('T-shit', 'Tommy Hilfiger', 3500.00, 4);
 
 create table users (
 	username varchar(50) not null,
