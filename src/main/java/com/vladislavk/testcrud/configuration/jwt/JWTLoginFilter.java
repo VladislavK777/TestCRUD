@@ -1,7 +1,6 @@
+/*
 package com.vladislavk.testcrud.configuration.jwt;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,14 +15,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 
+*/
 /**
  * @author Vladislav Klochkov
  * @project testcrud
  * @date 2019-06-09
- */
+ *//*
+
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
-    private static final Logger logger = LoggerFactory.getLogger(JWTLoginFilter.class);
+
 
     public JWTLoginFilter(String url, AuthenticationManager authManager) {
         super(new AntPathRequestMatcher(url));
@@ -46,6 +47,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         JWTTokenAuthService.addAuthentication(response, authResult.getName());
 
         String authToken = response.getHeader("Authorization");
-        logger.debug("Authorization Token: {}", authToken);
+        logger.debug("JWTLoginFilter.Authorization Token: " + authToken);
     }
 }
+*/

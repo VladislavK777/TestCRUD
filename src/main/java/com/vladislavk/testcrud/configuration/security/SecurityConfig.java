@@ -1,19 +1,21 @@
 package com.vladislavk.testcrud.configuration.security;
 
+
 import com.vladislavk.testcrud.configuration.jwt.JWTAuthEntryPoint;
 import com.vladislavk.testcrud.configuration.jwt.JWTAuthFilter;
-import com.vladislavk.testcrud.configuration.jwt.JWTLoginFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -24,10 +26,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JWTAuthEntryPoint jwtAuthEntryPoint;
+
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -35,18 +43,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return bCryptPasswordEncoder;
     }
 
+    @Bean
+    public JWTAuthFilter authenticationTokenFilterBean() {
+        return new JWTAuthFilter();
+    }
+
+    @Bean
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        String cryptPassword = passwordEncoder().encode("123");
-
-        InMemoryUserDetailsManagerConfigurer<AuthenticationManagerBuilder>
-                mngConfig = auth.inMemoryAuthentication();
-
-        UserDetails u1 = User.withUsername("admin").password(cryptPassword).roles("ADMIN").build();
-        UserDetails u2 = User.withUsername("user").password(cryptPassword).roles("USER").build();
-
-        mngConfig.withUser(u1);
-        mngConfig.withUser(u2);
+    public UserDetailsService userDetailsService() {
+        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
+        inMemoryUserDetailsManager.createUser(User.withUsername("admin").password(passwordEncoder().encode("123")).roles("ADMIN").build());
+        inMemoryUserDetailsManager.createUser(User.withUsername("user").password(passwordEncoder().encode("123")).roles("USER").build());
+        return inMemoryUserDetailsManager;
     }
 
     @Override
@@ -54,14 +62,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                .antMatchers("/get-token").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint)
                 .and()
-                .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JWTAuthFilter(), UsernamePasswordAuthenticationFilter.class)
-        ;
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http
+                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
 }
 
