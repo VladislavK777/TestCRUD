@@ -1,6 +1,6 @@
 # TestCRUD
 ### Get Token
-<br/>POST /get-token
+POST /get-token
 <br>Body username and pass:
 <br/>{
 	"username": "admin", 
@@ -8,7 +8,7 @@
 }
 
 ### Base API for user and admin role:
-<br/>GET /api/v1/all
+>GET /api/v1/all
 <br/>return json
 
 GET /api/v1/search/name?name=<name>
@@ -21,7 +21,7 @@ GET /api/v1/leftovers
 <br/>return json
 
 ### API for only admin role:
-<br/>POST /api/v1/admin/insert
+POST /api/v1/admin/insert
 <br/>Body for example: 
 <br/>{
 	"name": "T-shit",
