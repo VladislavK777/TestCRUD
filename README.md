@@ -1,4 +1,12 @@
 # TestCRUD
+### Get Token
+<br/>POST /get-token
+<br>Body username and pass:
+<br/>{
+	"username": "admin", 
+	"password": "123" 
+}
+
 ### Base API for user and admin role:
 <br/>GET /api/v1/all
 <br/>return json
@@ -34,13 +42,10 @@ PUT /api/v1/admin/update/1
 DELETE /api/v1/admin/delete/1
 
 # Example call
-### Call login
-curl -i -X POST -d username=admin -d password=123 -c /Users/vladislavklockov/Desktop/testcrud/cookies.txt
-<br/>http://localhost:8080/login
+### Call get token
+curl -i -H "Content-Type:application/json" -d "{ \"username\":\"admin\", \"password\":\"123\" }" http://localhost:8080/get-token
+<br/>Return:
+<br/>{"authToken":"<TOKEN>"}
 
 ### Call API
-<br/>curl -i --header "Accept:application/json" -X GET -b /Users/vladislavklockov/Desktop/testcrud/cookies.txt
-<br/>http://localhost:8080/api/v1/all
-<br/>http://localhost:8080/api/v1/admin/delete/1 - user get 403
-
-
+<br/>curl -i -H "Authorization: Bearer <TOKEN>" -X GET http://localhost:8080/api/v1/all
