@@ -45,7 +45,7 @@ DELETE /api/v1/admin/delete/1
 ### Call get token
 curl -i -H "Content-Type:application/json" -d "{ \"username\":\"admin\", \"password\":\"123\" }" http://localhost:8080/get-token
 <br/>Return:
-<br/>{"authToken":"<TOKEN>"}
+<br/>{"authToken":"\<TOKEN\>"}
 
 ### Call API
-<br/>curl -i -H "Authorization: Bearer <TOKEN>" -X GET http://localhost:8080/api/v1/all
+curl -i -H "Authorization: Bearer \<TOKEN\>" -X GET http://localhost:8080/api/v1/all
