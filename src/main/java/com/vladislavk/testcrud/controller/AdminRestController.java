@@ -30,7 +30,7 @@ public class AdminRestController {
     @Autowired
     private ResultOfSearch resultOfSearch;
 
-    @PostMapping(value = "/admin/insert")
+    @RequestMapping(value = "/admin/insert", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public Product createProduct(@RequestBody Product product) {
         logger.debug("API: createProduct - request: {}", product.toString());
