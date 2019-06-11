@@ -6,43 +6,35 @@
 <head>
   <title>TestCRUD|Auth</title>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="resources/js/main.js"></script>
 </head>
 
 <body>
-  <c:url value="/login" var="loginUrl" />
-  <form action="${loginUrl}" method="post">
-    <table>
+    <table id="loginTab">
       <tr>
         <td>
-          <c:choose>
-            <c:when test="${param.error != null}">
-              <h2>Wrong login/password</h2>
-            </c:when>
-            <c:otherwise>
-              <h2>Login to system</h2>
-            </c:otherwise>
-          </c:choose>
+          <h2>Login to system</h2>
         </td>
       </tr>
       <tr>
         <td>
-          <input type="text" autocomplete="off" name="username" value="" required />
+          <input type="text" autocomplete="off" id="username" value="" required />
           <span>Username</span>
         </td>
       </tr>
       <tr>
         <td>
-          <input type="password" autocomplete="off" name="password" value="" required />
+          <input type="password" autocomplete="off" id="password" value="" required />
           <span>Password</span>
         </td>
       </tr>
       <tr>
         <td>
-          <button type="submit">Login</button>
+          <input type="button" onclick="login(this.parentNode.parentNode.parentNode.parentNode.id)" value="Login" />
         </td>
       </tr>
     </table>
-  </form>
 </body>
 
 </html>

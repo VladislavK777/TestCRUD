@@ -1,6 +1,7 @@
 package com.vladislavk.testcrud.dao;
 
 import com.vladislavk.testcrud.entity.Product;
+import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -29,25 +30,25 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public <T> List getByName(String t, Class<T> clazz) {
+    public <T> List getByName(@NonNull String t, Class<T> clazz) {
         return entityManager.createQuery("from Product p where p.name = :name")
                 .setParameter("name", t).getResultList();
     }
 
     @Override
-    public <T> List getByBrand(String t, Class<T> clazz) {
+    public <T> List getByBrand(@NonNull String t, Class<T> clazz) {
         return entityManager.createQuery("from Product p where p.brand = :brand")
                 .setParameter("brand", t).getResultList();
     }
 
     @Override
-    public <T> T createObject(T object) {
+    public <T> T createObject(@NonNull  T object) {
         entityManager.persist(object);
         return object;
     }
 
     @Override
-    public <T> int updateObject(int id, T object, Class<T> clazz) {
+    public <T> int updateObject(@NonNull int id, @NonNull T object, Class<T> clazz) {
         Product obj = (Product) object;
         return entityManager.createQuery("update Product p set p.name = :name, p.brand = :brand, p.price = :price, p.quantity = :quantity where p.id = :id")
                 .setParameter("name", obj.getName())
@@ -65,7 +66,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public <T> void deleteProduct(int id, Class<T> clazz) {
+    public <T> void deleteProduct(@NonNull int id, Class<T> clazz) {
         T object = entityManager.find(clazz, id);
         if (object != null) {
             entityManager.remove(object);

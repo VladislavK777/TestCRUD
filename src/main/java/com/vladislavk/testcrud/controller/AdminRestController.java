@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 // будут вызваны соответсвующие методы
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping(value = "api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminRestController {
     private static Logger logger = LoggerFactory.getLogger(AdminRestController.class);
 
@@ -28,7 +30,7 @@ public class AdminRestController {
     @Autowired
     private ResultOfSearch resultOfSearch;
 
-    @PostMapping(value = "/admin/insert")
+    @RequestMapping(value = "/admin/insert", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public Product createProduct(@RequestBody Product product) {
         logger.debug("API: createProduct - request: {}", product.toString());

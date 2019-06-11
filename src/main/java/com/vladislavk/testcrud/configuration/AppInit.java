@@ -1,5 +1,6 @@
 package com.vladislavk.testcrud.configuration;
 
+import com.vladislavk.testcrud.configuration.security.SecurityConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**

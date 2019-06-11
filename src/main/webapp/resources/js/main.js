@@ -1,8 +1,35 @@
+function login(id) {
+  var context = document.getElementById(id);
+  var json = JSON.stringify({
+    username: context.querySelector("#username").value,
+    password: context.querySelector("#password").value
+  });
+  $.ajax({
+    url: "get-token",
+    cache: false,
+    type: "post",
+    contentType: "application/json",
+    data: json,
+    success: function(data) {
+      localStorage.authToken = data.authToken;
+      window.location = "/";
+    },
+    error: function() {
+      alert("Login failed");
+    }
+  });
+}
+
 function init() {
   var role = window.sessionStorage.getItem("role");
   $.ajax({
     url: "api/v1/all",
     cache: false,
+    beforeSend: function(checkToken) {
+      if (localStorage.authToken) {
+        checkToken.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
+      }
+    },
     success: function(response) {
       $("table.resultTabProd").remove();
       $("table.resultTab").remove();
@@ -106,7 +133,14 @@ function leftovers() {
   $.ajax({
     url: "api/v1/leftovers",
     cache: false,
+    beforeSend: function(checkToken) {
+      if (localStorage.authToken) {
+        checkToken.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
+      }
+    },
     success: function(response) {
+      $("table.resultTab").remove();
+      $("h1").remove();
       $h1 = $("<h1>Leftovers</h1>");
       $table = $('<table class="resultTab">');
       $head1 = $("<tr>").append(
@@ -148,6 +182,11 @@ function searchName() {
   $.ajax({
     url: "api/v1/search/name?name=" + val,
     cache: false,
+    beforeSend: function(checkToken) {
+      if (localStorage.authToken) {
+        checkToken.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
+      }
+    },
     success: function(response) {
       $("table.resultTab").remove();
       $("table.resultTabProd").remove();
@@ -193,6 +232,11 @@ function searchBrand() {
   $.ajax({
     url: "api/v1/search/brand?brand=" + val,
     cache: false,
+    beforeSend: function(checkToken) {
+      if (localStorage.authToken) {
+        checkToken.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
+      }
+    },
     success: function(response) {
       $("table.resultTab").remove();
       $("table.resultTabProd").remove();
@@ -247,6 +291,11 @@ function newProduct(id) {
     type: "post",
     data: json,
     contentType: "application/json",
+    beforeSend: function(checkToken) {
+      if (localStorage.authToken) {
+        checkToken.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
+      }
+    },
     success: function() {
       init();
       alert("The new product succeed add!");
@@ -262,6 +311,11 @@ function deleteProd(id) {
     url: "api/v1/admin/delete/" + id,
     cache: false,
     type: "delete",
+    beforeSend: function(checkToken) {
+      if (localStorage.authToken) {
+        checkToken.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
+      }
+    },
     success: function() {
       init();
     }
@@ -283,6 +337,11 @@ function updateProd(idProd, id) {
     type: "put",
     data: json,
     contentType: "application/json",
+    beforeSend: function(checkToken) {
+      if (localStorage.authToken) {
+        checkToken.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
+      }
+    },
     success: function() {
       init();
       alert("The product is succeed update!");
