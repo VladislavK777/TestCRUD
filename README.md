@@ -8,7 +8,7 @@ POST /get-token
 }
 
 ### Base API for user and admin role:
->GET /api/v1/all
+GET /api/v1/all
 <br/>return json
 
 GET /api/v1/search/name?name=<name>
