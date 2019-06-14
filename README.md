@@ -16,7 +16,7 @@ GET /api/v1/leftovers
 <br/>POST /api/v1/admin/insert
 <br/>Body for example: 
 <br/>{
-	"name": "T-shit",
+	"name": "T-shirt",
 	"brand": "US Polo",
 	"price": 4000.56,
 	"quantity": 4
@@ -25,7 +25,7 @@ GET /api/v1/leftovers
 PUT /api/v1/admin/update/1
 <br/>Body for example: 
 <br/>{
-	"name": "T-shit",
+	"name": "T-shirt",
 	"brand": "US Polo",
 	"price": 4000.56,
 	"quantity": 4

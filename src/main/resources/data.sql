@@ -7,5 +7,5 @@ create table product(
     quantity int not null
 );
 
-insert into product(name,brand,price,quantity) values('T-shit', 'US POLO', 4000.00, 6);
-insert into product(name,brand,price,quantity) values('T-shit', 'Tommy Hilfiger', 3500.00, 4);
+insert into product(name,brand,price,quantity) values('T-shirt', 'US POLO', 4000.00, 6);
+insert into product(name,brand,price,quantity) values('T-shirt', 'Tommy Hilfiger', 3500.00, 4);
